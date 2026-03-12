@@ -5,7 +5,7 @@ import authRoutes from "./routes/authRoutes.js";
 import todoRoutes from "./routes/todoRoutes.js";
 
 const app = express();
-const PORT = process.env.PORT || 5000; // backup port is 5000
+const PORT = process.env.PORT || 5003; // backup port is 5003
 
 // get the file path from the URL of the current module
 const __filename = fileURLToPath(import.meta.url);
