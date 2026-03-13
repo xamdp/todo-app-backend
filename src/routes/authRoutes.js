@@ -32,12 +32,14 @@ router.post('/register', (req, res) => {
             process.env.JWT_SECRET,
             { expiresIn: '24h' }
         )
-        res.json({ token })
+        return res.status(201).json({ token })
     } catch (err) {
-        console.log(err.message)
-        res.sendStatus(503)
+        console.error(err)
+        if (err.message.include('UNIQUE')) {
+            return res.status(409).json({ message: 'Username already exists' })
+        }
+        return res.status(500).json({ message: 'Server error' })
     }
-    res.sendStatus(201)
 })
 
 // Login a user /auth/login
@@ -50,24 +52,24 @@ router.post('/login', (req, res) => {
 
         // if we cannot find a user associated with that username, return out from the function
         if (!user) {
-            return res.status(404).send({ message: 'User not found' })
+            return res.status(401).json({ message: 'Invalid credentials' })
         }
 
         const passwordIsValid = bcrypt.compareSync(password, user.password)
         if (!passwordIsValid) {
-            return res.status(401).send({ message: 'Invalid password' })
+            return res.status(401).json({ message: 'Invalid credentials' })
         }
 
         // then we have a successful authentication
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
             expiresIn: '24h',
         })
-        res.json({ token })
+
+        return res.json({ token })
     } catch (err) {
-        console.log(err.message)
-        res.sendStatus(503)
+        console.error(err)
+        res.sendStatus(500).json({ message: 'Server error' })
     }
-    res.status(200).send({ message: `User is found` })
 })
 
 export default router
