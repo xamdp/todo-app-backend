@@ -37,7 +37,6 @@ router.post('/register', (req, res) => {
         console.log(err.message)
         res.sendStatus(503)
     }
-    console.log(hashedPassword)
     res.sendStatus(201)
 })
 
@@ -61,7 +60,7 @@ router.post('/login', (req, res) => {
 
         // then we have a successful authentication
         const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, {
-            expiresIn: '24',
+            expiresIn: '24h',
         })
         res.json({ token })
     } catch (err) {
