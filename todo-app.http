@@ -1,3 +1,8 @@
+### 
+
+@auth_token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzczMzY2Nzk4LCJleHAiOjE3NzM0NTMxOTh9.h-bSO2wD0rd_g_yPD-ojuizdUjGM8zpAcpD04aKPeio
+
+
 ### GET /
 
 GET http://localhost:5000/ HTTP/1.1
@@ -12,7 +17,7 @@ Content-Type: application/json
 
 {
   "password": "password123",
-  "username": "testemail@gmail.com"
+  "username": "test@gmail.com"
 }
 
 
@@ -23,5 +28,39 @@ Content-Type: application/json
 
 {
   "password": "password123",
-  "username": "testemail@gmail.com"
+  "username": "test@gmail.com"
 }
+
+
+### Fetch all todos GET/Todos (protected)
+
+GET http://localhost:5000/todos HTTP/1.1
+Authorization: Bearer {{auth_token}}
+
+
+### Creates a new todo POST/Todo (protected)
+
+POST http://localhost:5000/todos HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "task": "this is my third todo"
+}
+
+
+### Update a todo PUT /TODOS/:ID (protected)
+
+PUT http://localhost:5000/todos/2?page=4 HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "completed": 1
+}
+
+
+### Delete a todo PUT /TODOS/:ID (protected)
+
+DELETE http://localhost:5000/todos/2 HTTP/1.1
+Authorization: Bearer {{auth_token}}
